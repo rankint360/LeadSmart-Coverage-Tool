@@ -104,6 +104,21 @@ Maintained by: Muse, for the user
 - GitHub App installation / repository access **not yet verified**: user sent the "Select repositories" installation link (`https://github.com/apps/meta-muse-ai/installations/new`) to choose which repositories Muse can access.
 - Next action: once the user has selected/created the target repository and confirmed its name, verify access with a read, then push as planned in R-009 (records + core first, then the 412 data files in batched commits) and record repo, branch, and commit SHAs here.
 
+### R-011 — 2026-11-12 11:28–11:55 PST — Source and record files pushed to GitHub (415 of 419 files)
+- Target given by user: https://github.com/rankint360/LeadSmart-Coverage-Tool (owner `rankint360`, branch `main`, public).
+- Repo was not empty: it already had one user commit `16c3a00` "Add files via upload" containing only `leadsmart_coverage_tool.zip` (14,632 bytes). That file was left untouched.
+- Access verified as GitHub user `rankint360`; head before pushing was `16c3a00`.
+- Layout pushed: clone source at repo root (`index.html`, `data.js`, `api/…`, etc.) plus `RECORD_REGISTER.md` and `STATUS.md` at root.
+- Method: GitHub connector snapshot push (`push_files`) from staging folder `~/workspace/leadsmart-coverage-github/`. An first attempt at ~12 MB per batch failed with HTTP 413 (request too large), so batches were cut to ~3.8 MB. 18 commits by Muse:
+  - `074f03f` core source + record files (13 files)
+  - `34067b2`, `94dda66`, `f908aad`, `4772510`, `d42fa3a`, `fc8ac02`, `e76d463`, `74fbfc8`, `e811575` data files parts 1–9
+  - `5a6a941`, `065d329`, `ee6291d`, `f12685e`, `5af012d`, `c88bbfd`, `eb7ec17` data files parts 15–21
+  - `f540485` nationwide bundles `_all__6.json`
+- Verified by reading the repo back: 19 commits total; `api/bundles/` holds 256 files.
+- **Blocked remainder — 4 files not pushed:** `api/bundles/_all__2.json` (7.96 MB), `_all__3.json` (7.09 MB), `_all__4.json` (6.12 MB), `_all__5.json` (4.96 MB). Each exceeds the GitHub connector's per-request size limit (a 4.08 MB file succeeded; 4.96 MB and above return HTTP 413, and the alternative single-file tool cannot accept a 5 MB argument on this machine). The files are already compact JSON, so they cannot be shrunk without changing them. These 4 power only the nationwide (all-states) Bundles view at min-niches 2–5; every state-level bundle file is in the repo.
+- To finish: user can upload those exact 4 files via GitHub's web UI (repo → `api/bundles/` → Add file → Upload files; web limit is well above their size), or provide another route. File copies are in `~/workspace/your_files/leadsmart-coverage-clone/api/bundles/`.
+- Communication note: during this step the user asked twice for status and did not receive the reply because the long batched push runs consumed the turns; status was eventually given at 11:55 PST (414 of 419 at that point, then `_all__6` pushed, making 415).
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

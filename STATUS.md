@@ -1,6 +1,6 @@
 # STATUS — LeadSmart Coverage Intelligence (Clone)
 
-Last updated: 2026-11-12 11:24 PST (after Register entry R-010)
+Last updated: 2026-11-12 11:58 PST (after Register entry R-011)
 Full history: see `RECORD_REGISTER.md` in this folder. This file is the current state only — it is rewritten after each build step, and the Register is appended at the same time.
 
 ## What this tool is
@@ -19,7 +19,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 | Dataset in clone | 📌 Frozen snapshot | 2026-11-12 dataset only: 268,401 coverage rows, 28,372 cities, synced 2026-11-12T18:18:20Z, fingerprint `2026-11-12T16:51:06.283257+00:00\|268401\|724f525c81`, `DB_VERSION 20261112-181854`. Does **not** refresh by itself. |
 | In-chat preview | ✅ Fixed, verified by Muse | Space slug: `leadsmart-coverage-intelligence`. Data loading repaired 2026-11-12 (see Known issues). Verified in Chromium under the real preview conditions: header stats, Top markets, Tulsa (By city / ZIP), By state, and Bundles (21,237 markets) all populate. |
 | Daily auto-update | ⏳ Not built | Designed and explained to user; waiting on user's go-ahead (offered 2026-11-12 11:01 PST). |
-| GitHub push | ⏳ Waiting on user | Requested 2026-11-12 (R-009). GitHub OAuth completed 11:24 PST (R-010); repository selection/installation still pending — no target repository chosen yet. Source is ~86 MB, so it will be pushed via the connector in batched commits (16 MiB per push), records + core files first. |
+| GitHub push | ⚠️ 415 of 419 files pushed | Repo: [rankint360/LeadSmart-Coverage-Tool](https://github.com/rankint360/LeadSmart-Coverage-Tool), branch `main`, 18 Muse commits (R-011). Missing: `api/bundles/_all__2.json` to `_all__5.json` (5–8 MB each) — they exceed the GitHub connector's per-request size limit (HTTP 413). User can upload those 4 via GitHub web UI into `api/bundles/`. The user's pre-existing `leadsmart_coverage_tool.zip` in the repo was left untouched. |
 | Project records | ✅ Created 2026-11-12 | `RECORD_REGISTER.md` (R-001–R-008) + this `STATUS.md`, in `~/workspace/your_files/leadsmart-coverage-project/` — kept outside the clone folder so the clone stays unchanged. |
 
 ## Done
@@ -36,7 +36,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 
 - **User confirmation pending:** whether the repaired preview now shows the live data for the user (fix verified by Muse on 2026-11-12 10:55 PST; user has not yet confirmed).
 - **User decision pending:** whether to build the daily auto-update (see Next steps, item 1).
-- **User action pending:** connect GitHub and confirm the target repository for the source/record push (R-009).
+- **User action pending (GitHub):** upload the 4 oversized nationwide bundle files (`api/bundles/_all__2.json` … `_all__5.json`) via GitHub web UI, or provide another route — see R-011. Until then, the repo copy's nationwide Bundles view (all states, min niches 2–5) has no data; all state-level bundles work.
 
 ## Next steps (in order)
 

@@ -1,6 +1,6 @@
 # STATUS — LeadSmart Coverage Intelligence (Clone)
 
-Last updated: 2026-11-18 23:32 PST (after Register entry R-014)
+Last updated: 2026-11-18 23:42 PST (after Register entry R-015)
 Full history: see `RECORD_REGISTER.md` in this folder. This file is the current state only — it is rewritten after each build step, and the Register is appended at the same time.
 
 ## What this tool is
@@ -19,7 +19,8 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 | Dataset in clone | 📌 Frozen snapshot | 2026-11-12 dataset only: 268,401 coverage rows, 28,372 cities, synced 2026-11-12T18:18:20Z, fingerprint `2026-11-12T16:51:06.283257+00:00\|268401\|724f525c81`, `DB_VERSION 20261112-181854`. Does **not** refresh by itself. |
 | In-chat preview | ✅ Fixed, verified by Muse | Space slug: `leadsmart-coverage-intelligence`. Data loading repaired 2026-11-12 (see Known issues). Verified in Chromium under the real preview conditions: header stats, Top markets, Tulsa (By city / ZIP), By state, and Bundles (21,237 markets) all populate. |
 | Daily auto-update | 🔄 Replaced by live proxy (R-013) | Instead of scheduled re-uploads, the deployment proxies `/api/*` and `/data.js` live from the upstream site (`netlify.toml` in repo root), so the public site always shows the current dataset. Upstream was already on 2026-11-18 data (258,109 rows) at check time, vs the repo snapshot's 2026-11-12 data. |
-| Public deployment | ✅ Live and verified | **https://statuesque-bunny-03cabc.netlify.app/** — Netlify site `statuesque-bunny-03cabc` in the user's `rankintelligence` team, deployed from repo `main` @ `b835ca4` on 2026-11-18 23:31 PST, public, auto-deploys on push (R-014). Verified serving the live dataset (data_date 2026-11-18, 258,109 rows) via the R-013 proxy — not the repo snapshot. Site name is Netlify's random default; rename or add a custom domain in Netlify anytime. |
+| Public deployment | ✅ Live and verified | **https://leadsmart-live-coverage.netlify.app/** — Netlify site in the user's `rankintelligence` team, deployed from repo `main` @ `b835ca4` on 2026-11-18 23:31 PST, public, auto-deploys on push (R-014). Renamed by the user from Netlify's random `statuesque-bunny-03cabc` name to `leadsmart-live-coverage` on 2026-11-18 (R-015; old name now 404s). Verified serving the live dataset (data_date 2026-11-18, 258,109 rows) via the R-013 proxy — not the repo snapshot. |
+| How updates reach the live site | 🔄 Two-hop chain, no work on our side | (1) LeadSmart refreshes its bid database behind affiliate-bid-coverage.leadsmartinc.com. (2) leadsmart-coverage.netlify.app's backend checks that feed several times a day and, when its fingerprint changes, rebuilds its 412 JSONs (with population data) and redeploys itself. (3) Our site's `netlify.toml` proxies every `/api/*` and `/data.js` request to that site at request time — so our visitors get hop 2's newest dataset the moment it publishes, with no copies, cron jobs, or redeploys on our side. Dependency: if the upstream site goes down or changes layout, our data follows it (fallback snapshot in repo is 2026-11-12). |
 | GitHub push | ✅ Complete — 419 of 419 files | Repo: [rankint360/LeadSmart-Coverage-Tool](https://github.com/rankint360/LeadSmart-Coverage-Tool), branch `main`. Muse pushed 415 files in 19 commits (R-011); the 4 oversized nationwide bundle files were uploaded by the user via GitHub web UI on 2026-11-18 (commit `9a70349`) and verified by Muse — full repo tree matches the clone with zero size mismatches (R-012). The user's pre-existing `leadsmart_coverage_tool.zip` in the repo was left untouched. |
 | Project records | ✅ Created 2026-11-12 | `RECORD_REGISTER.md` (R-001–R-008) + this `STATUS.md`, in `~/workspace/your_files/leadsmart-coverage-project/` — kept outside the clone folder so the clone stays unchanged. |
 
@@ -41,7 +42,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 
 ## Next steps (in order)
 
-0. ✅ **Deploy to Netlify and verify — DONE (R-014, 2026-11-18).** Live at https://statuesque-bunny-03cabc.netlify.app/ and verified serving the current dataset. Optional follow-ups if the user wants them: rename the site (Netlify → Site configuration → Site details) or attach a custom domain.
+0. ✅ **Deploy to Netlify and verify — DONE (R-014, 2026-11-18).** Live at https://leadsmart-live-coverage.netlify.app/ (renamed by user, R-015) and verified serving the current dataset. Optional follow-up if the user wants it: attach a custom domain in Netlify.
 1. **Daily auto-update for the clone (superseded by the live proxy above; kept for reference)** — *needs user's go-ahead.*
    Build a scheduled job that:
    - Polls the original's `api/meta.json` / `data.js` version stamp several times a day (or at least daily) and compares the source fingerprint to the one recorded above.

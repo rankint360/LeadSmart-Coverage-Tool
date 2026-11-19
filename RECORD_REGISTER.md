@@ -151,6 +151,15 @@ Maintained by: Muse, for the user
   - `GET /data.js` on the new URL returns upstream's current `DB_VERSION 20261118-180805`.
 - Notes: the site name is Netlify's random default and can be renamed in Netlify (Site configuration → Site details) or replaced with a custom domain at any time; neither changes the data setup. Future pushes to `main` auto-redeploy the shell/config, while data freshness does not depend on deploys at all (it streams live via the proxy).
 
+### R-015 — 2026-11-18 23:42 PST — Site renamed by user to leadsmart-live-coverage.netlify.app; update chain explained
+- User renamed the Netlify site: live URL is now **https://leadsmart-live-coverage.netlify.app/** (the previous `statuesque-bunny-03cabc.netlify.app` name now returns 404, as expected after a rename).
+- Verified by Muse at 23:42 PST: new URL homepage HTTP 200; its `/api/meta.json` is identical to upstream's current meta (data_date 2026-11-18, 258,109 rows, synced 2026-11-18T18:07:33Z), while the repo snapshot still reads 2026-11-12 / 268,401 rows — direct proof the live site does not serve its stored copies.
+- User asked how daily updates flow; explained the two-hop chain (also in STATUS.md):
+  1. LeadSmart's database (behind affiliate-bid-coverage.leadsmartinc.com) is refreshed by LeadSmart's own scrapes.
+  2. leadsmart-coverage.netlify.app's backend job checks that feed several times a day; when the fingerprint (updated_at | row_count | hash) changes, it rebuilds its 412 precomputed JSONs (adding SimpleMaps population data), stamps a new DB_VERSION, and redeploys itself.
+  3. Our site copies nothing and runs no schedule: `netlify.toml` force-proxies every `/api/*` and `/data.js` request to the upstream site at the moment a visitor's browser asks, so our visitors always receive whatever dataset hop 2 most recently published — the same instant it appears on the upstream site, with zero extra lag and no deploy on our side.
+- Trade-off on record: our data freshness depends on the upstream site staying up and keeping its file layout; if it ever changed, our site would need its own sync build (the direct-from-LeadSmart option scoped in R-007).
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

@@ -128,6 +128,18 @@ Maintained by: Muse, for the user
 - This closes the blocked remainder from R-011. The nationwide (all-states) Bundles view now has its data in the repo copy as well.
 - The updated record files from this entry were re-pushed to the repo in a follow-up records commit (its SHA is the repo head after this entry and is reported in chat; a register entry cannot contain its own commit SHA).
 
+### R-013 — 2026-11-18 23:15 PST — Public deployment with live updates requested; live-proxy config added to repo
+- Request (user): deploy the tool on a live public URL where it gets live updates from https://affiliate-bid-coverage.leadsmartinc.com/ and https://leadsmart-coverage.netlify.app/.
+- Evidence the update problem is real: at check time the upstream dataset had already moved on — `data_date` 2026-11-18, fingerprint `2026-11-18T14:03:28.104657+00:00|258109|724f525c81`, 258,109 rows, `DB_VERSION 20261118-180805`, synced 2026-11-18T18:07:33Z — while the clone/repo still hold the 2026-11-12 dataset (268,401 rows).
+- Design chosen (no scheduled re-uploads needed):
+  - Deploy the repo as a static site on Netlify (same host as the original; free tier is enough).
+  - Added `netlify.toml` at repo root with **forced proxy redirects**: `/api/*` and `/data.js` are served live from `leadsmart-coverage.netlify.app`. The browser sees same-origin requests, so the upstream's lack of CORS headers does not block it (that was the R-006 failure mode in the Muse preview frame; a normal Netlify deployment is not affected).
+  - The upstream site is itself the live chain from LeadSmart: it syncs from the affiliate bid feed (affiliate-bid-coverage.leadsmartinc.com) several times a day and adds the SimpleMaps population metrics, so proxying it delivers both sources the user named, in the exact precomputed format the tool consumes. Direct-from-LeadSmart sync (scraping its Supabase `offer_bids` and re-doing enrichment + precompute) remains a possible later build, as scoped in R-007.
+  - Fallback: if the proxy rules are removed, the deployment serves the snapshot data stored in the repo under `/api/` (2026-11-12 dataset).
+  - The page shell (`index.html`) is served from the repo; only data + the data-layer script stream live.
+- `netlify.toml` pushed to the repo together with these updated record files.
+- Remaining step (needs user): connect Netlify to the GitHub repo and deploy — Netlify account sign-in is the user's; clicks are listed in STATUS.md. Once the URL exists, Muse will verify it serves the current (Nov 18+) dataset and record the URL here.
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

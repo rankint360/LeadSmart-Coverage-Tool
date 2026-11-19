@@ -1,6 +1,6 @@
 # STATUS — LeadSmart Coverage Intelligence (Clone)
 
-Last updated: 2026-11-18 23:16 PST (after Register entry R-013)
+Last updated: 2026-11-18 23:32 PST (after Register entry R-014)
 Full history: see `RECORD_REGISTER.md` in this folder. This file is the current state only — it is rewritten after each build step, and the Register is appended at the same time.
 
 ## What this tool is
@@ -19,7 +19,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 | Dataset in clone | 📌 Frozen snapshot | 2026-11-12 dataset only: 268,401 coverage rows, 28,372 cities, synced 2026-11-12T18:18:20Z, fingerprint `2026-11-12T16:51:06.283257+00:00\|268401\|724f525c81`, `DB_VERSION 20261112-181854`. Does **not** refresh by itself. |
 | In-chat preview | ✅ Fixed, verified by Muse | Space slug: `leadsmart-coverage-intelligence`. Data loading repaired 2026-11-12 (see Known issues). Verified in Chromium under the real preview conditions: header stats, Top markets, Tulsa (By city / ZIP), By state, and Bundles (21,237 markets) all populate. |
 | Daily auto-update | 🔄 Replaced by live proxy (R-013) | Instead of scheduled re-uploads, the deployment proxies `/api/*` and `/data.js` live from the upstream site (`netlify.toml` in repo root), so the public site always shows the current dataset. Upstream was already on 2026-11-18 data (258,109 rows) at check time, vs the repo snapshot's 2026-11-12 data. |
-| Public deployment | ⏳ Config ready, deploy pending | `netlify.toml` added to repo (R-013). Needs user to connect Netlify to the GitHub repo and deploy (Netlify sign-in is the user's): netlify.com → Add new site → Import an existing project → GitHub → `LeadSmart-Coverage-Tool` → no build command, publish directory = repo root → Deploy. Muse will verify the live URL once it exists. |
+| Public deployment | ✅ Live and verified | **https://statuesque-bunny-03cabc.netlify.app/** — Netlify site `statuesque-bunny-03cabc` in the user's `rankintelligence` team, deployed from repo `main` @ `b835ca4` on 2026-11-18 23:31 PST, public, auto-deploys on push (R-014). Verified serving the live dataset (data_date 2026-11-18, 258,109 rows) via the R-013 proxy — not the repo snapshot. Site name is Netlify's random default; rename or add a custom domain in Netlify anytime. |
 | GitHub push | ✅ Complete — 419 of 419 files | Repo: [rankint360/LeadSmart-Coverage-Tool](https://github.com/rankint360/LeadSmart-Coverage-Tool), branch `main`. Muse pushed 415 files in 19 commits (R-011); the 4 oversized nationwide bundle files were uploaded by the user via GitHub web UI on 2026-11-18 (commit `9a70349`) and verified by Muse — full repo tree matches the clone with zero size mismatches (R-012). The user's pre-existing `leadsmart_coverage_tool.zip` in the repo was left untouched. |
 | Project records | ✅ Created 2026-11-12 | `RECORD_REGISTER.md` (R-001–R-008) + this `STATUS.md`, in `~/workspace/your_files/leadsmart-coverage-project/` — kept outside the clone folder so the clone stays unchanged. |
 
@@ -41,8 +41,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 
 ## Next steps (in order)
 
-0. **Deploy to Netlify and verify** — *config is ready (R-013); needs user's Netlify sign-in.*
-   Connect Netlify to `rankint360/LeadSmart-Coverage-Tool` and deploy with no build command, publish directory = repo root. The `netlify.toml` in the repo makes `/api/*` and `/data.js` proxy live from the upstream site, so the public URL always shows current LeadSmart data (via the upstream's sync from affiliate-bid-coverage.leadsmartinc.com, with population metrics). After deploy, Muse verifies the live URL reports the current dataset date (2026-11-18 or later) and records the URL in the Register.
+0. ✅ **Deploy to Netlify and verify — DONE (R-014, 2026-11-18).** Live at https://statuesque-bunny-03cabc.netlify.app/ and verified serving the current dataset. Optional follow-ups if the user wants them: rename the site (Netlify → Site configuration → Site details) or attach a custom domain.
 1. **Daily auto-update for the clone (superseded by the live proxy above; kept for reference)** — *needs user's go-ahead.*
    Build a scheduled job that:
    - Polls the original's `api/meta.json` / `data.js` version stamp several times a day (or at least daily) and compares the source fingerprint to the one recorded above.

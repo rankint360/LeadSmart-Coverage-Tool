@@ -140,6 +140,17 @@ Maintained by: Muse, for the user
 - `netlify.toml` pushed to the repo together with these updated record files.
 - Remaining step (needs user): connect Netlify to the GitHub repo and deploy — Netlify account sign-in is the user's; clicks are listed in STATUS.md. Once the URL exists, Muse will verify it serves the current (Nov 18+) dataset and record the URL here.
 
+### R-014 — 2026-11-18 23:18–23:32 PST — Deployed to Netlify; live public URL verified serving current data
+- Deployment executed in the user's Netlify team `rankintelligence` (displays as "Sitocal Themes" in Netlify's UI), via the user's GitHub sign-in (2FA code and secure-vault login supplied by the user during the session).
+- Netlify GitHub App installed for **only** `rankint360/LeadSmart-Coverage-Tool`; site imported from `main` with empty build command and publish directory = repo root. Production deploy published from `main` @ `b835ca4` at 23:31 PST. Auto-deploy on push to `main` is connected.
+- Site name assigned by Netlify: `statuesque-bunny-03cabc`. The site was initially behind Netlify team protection; it was switched to public ("Make public") and now shows as "Public production site".
+- **Live URL: https://statuesque-bunny-03cabc.netlify.app/**
+- Verification (by the deploying session and independently re-checked by Muse via direct requests at 23:32 PST):
+  - Homepage returns HTTP 200, correct title/design, header shows 27,939 cities, 20 niches, "Data updated Nov 18, 2026".
+  - `GET /api/meta.json` on the new URL returns the **live** dataset: `data_date` 2026-11-18, source "live · affiliate-bid-coverage.leadsmartinc.com", 258,109 coverage rows, synced 2026-11-18T18:07:33Z — i.e. the R-013 proxy is working and the site is NOT serving the repo's Nov 12 snapshot (which would read 2026-11-12 / 268,401 rows / 28,372 cities).
+  - `GET /data.js` on the new URL returns upstream's current `DB_VERSION 20261118-180805`.
+- Notes: the site name is Netlify's random default and can be renamed in Netlify (Site configuration → Site details) or replaced with a custom domain at any time; neither changes the data setup. Future pushes to `main` auto-redeploy the shell/config, while data freshness does not depend on deploys at all (it streams live via the proxy).
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

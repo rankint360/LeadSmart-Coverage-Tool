@@ -119,6 +119,15 @@ Maintained by: Muse, for the user
 - To finish: user can upload those exact 4 files via GitHub's web UI (repo → `api/bundles/` → Add file → Upload files; web limit is well above their size), or provide another route. File copies are in `~/workspace/your_files/leadsmart-coverage-clone/api/bundles/`.
 - Communication note: during this step the user asked twice for status and did not receive the reply because the long batched push runs consumed the turns; status was eventually given at 11:55 PST (414 of 419 at that point, then `_all__6` pushed, making 415).
 
+### R-012 — 2026-11-18 23:13 PST — Final 4 bundle files uploaded by user; GitHub push complete (419 of 419)
+- User uploaded the 4 oversized nationwide bundle files via GitHub web UI (following the walkthrough given 2026-11-18 23:06 PST) and confirmed "done".
+- User's commit: `9a70349` "Add files via upload", 2026-11-19T07:12:19Z.
+- Verified by Muse against the full repo tree (GitHub API, recursive): **all 419 pushed files are present, with zero size mismatches** against the clone.
+  - `api/bundles/_all__2.json` 7,963,914 bytes · `_all__3.json` 7,086,552 · `_all__4.json` 6,120,834 · `_all__5.json` 4,959,785 — all exact.
+  - Repo total is 420 files, the extra one being the user's pre-existing `leadsmart_coverage_tool.zip`.
+- This closes the blocked remainder from R-011. The nationwide (all-states) Bundles view now has its data in the repo copy as well.
+- The updated record files from this entry were re-pushed to the repo in a follow-up records commit (its SHA is the repo head after this entry and is reported in chat; a register entry cannot contain its own commit SHA).
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

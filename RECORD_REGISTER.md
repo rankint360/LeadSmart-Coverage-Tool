@@ -160,6 +160,16 @@ Maintained by: Muse, for the user
   3. Our site copies nothing and runs no schedule: `netlify.toml` force-proxies every `/api/*` and `/data.js` request to the upstream site at the moment a visitor's browser asks, so our visitors always receive whatever dataset hop 2 most recently published — the same instant it appears on the upstream site, with zero extra lag and no deploy on our side.
 - Trade-off on record: our data freshness depends on the upstream site staying up and keeping its file layout; if it ever changed, our site would need its own sync build (the direct-from-LeadSmart option scoped in R-007).
 
+### R-016 — 2026-11-18 23:51 PST — Own sync direct from LeadSmart's feed: feasibility verified live, plan presented
+- User asked about building their own sync directly from https://affiliate-bid-coverage.leadsmartinc.com/ (instead of relying on the upstream Netlify site via the R-013 proxy).
+- Feasibility probe (read-only, using only what LeadSmart's own public web app uses):
+  - The affiliate tool's public JS bundle contains its Supabase project URL (`jowsrovyaqprkkbmvtyw.supabase.co`) and its public anon key — the same credentials every visitor's browser uses.
+  - `verticals` table reads fine (slug, name, offer_key, offer_name, payout_type e.g. `cpl`, group_label, enabled, sort_order).
+  - `offer_bids` table reads fine (zip, city, state, offer_key, offer_name, top_payout, last_updated). Freshest rows show `last_updated` 2026-11-18T14:02 UTC, matching the upstream fingerprint's 14:03 — i.e. this is the same data the upstream site rebuilds from.
+  - Caveat found: a whole-table count + sort query hit the database's statement timeout, so the extractor must paginate carefully (keyset/range paging, no global sorts) — ~260k rows at 1,000 rows per API page ≈ 260 requests per full pull. Some rows have null city/state (e.g. ZIP 00001) and must be filtered like the upstream does.
+- Plan presented to user (awaiting go-ahead): 4 parts — (1) Extractor pulling `offer_bids` + `verticals` with a change fingerprint (max last_updated + row count) so unchanged days cost nothing; (2) Enrichment joining ZIP→city/county/population/lat-lng from the SimpleMaps US Cities dataset (the snapshot already in the repo carries this for ~28k cities and changes slowly); (3) Precompute replicating the upstream's 412 output files, validated by diffing our output against the upstream's published files for the same fingerprint until they match; (4) Publisher: GitHub Actions schedule in the repo (several times daily) — on change, regenerate, commit to `main`, Netlify auto-deploys; the R-013 proxy can then be removed (site serves its own data) or kept as fallback.
+- Risks on record: the anon key is public-by-design but LeadSmart could rotate it or tighten row-level security at any time (sync would break until adapted); the data is LeadSmart's — user should be a LeadSmart affiliate acting within their terms; full-table reads must stay polite (batched, off-peak-friendly schedule) to avoid tripping their database limits, as the timeout already showed.
+
 ## Open items carried into STATUS.md
 
 See `STATUS.md` in this folder for the current state, next steps, and blockers. Summary at register creation:

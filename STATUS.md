@@ -1,6 +1,6 @@
 # STATUS — LeadSmart Coverage Intelligence (Clone)
 
-Last updated: 2026-11-18 23:42 PST (after Register entry R-015)
+Last updated: 2026-11-18 23:52 PST (after Register entry R-016)
 Full history: see `RECORD_REGISTER.md` in this folder. This file is the current state only — it is rewritten after each build step, and the Register is appended at the same time.
 
 ## What this tool is
@@ -39,6 +39,10 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 - **User confirmation pending:** whether the repaired preview now shows the live data for the user (fix verified by Muse on 2026-11-12 10:55 PST; user has not yet confirmed).
 - **User decision pending:** whether to build the daily auto-update (see Next steps, item 1).
 - **GitHub upload:** ✅ done — user uploaded the final 4 bundle files on 2026-11-18 and Muse verified all 419 files in the repo (R-012). Nothing outstanding on the GitHub push.
+
+## Own sync direct from LeadSmart (R-016) — feasibility ✅ verified, awaiting user's go-ahead
+
+LeadSmart's affiliate tool reads a Supabase database with a public anon key shipped in its own JS; Muse read `verticals` and `offer_bids` live with it (freshest rows 2026-11-18T14:02 UTC, matching upstream). Build = Extractor (fingerprinted, keyset-paginated — whole-table sorts time out on their DB) + SimpleMaps enrichment + Precompute replicating the 412 files (validated by diffing against upstream's published output for the same fingerprint) + GitHub Actions publisher committing to `main` (Netlify auto-deploys; proxy then removable or kept as fallback). Risks: LeadSmart could rotate the key / tighten access; data is LeadSmart's (affiliate terms apply).
 
 ## Next steps (in order)
 

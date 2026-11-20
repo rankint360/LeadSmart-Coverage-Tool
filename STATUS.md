@@ -1,6 +1,6 @@
 # STATUS — LeadSmart Coverage Intelligence (Clone)
 
-Last updated: 2026-11-18 23:52 PST (after Register entry R-016)
+Last updated: 2026-11-20 10:21 PST (after Register entry R-017)
 Full history: see `RECORD_REGISTER.md` in this folder. This file is the current state only — it is rewritten after each build step, and the Register is appended at the same time.
 
 ## What this tool is
@@ -22,7 +22,7 @@ A byte-for-byte clone of https://leadsmart-coverage.netlify.app/ — a static to
 | Public deployment | ✅ Live and verified | **https://leadsmart-live-coverage.netlify.app/** — Netlify site in the user's `rankintelligence` team, deployed from repo `main` @ `b835ca4` on 2026-11-18 23:31 PST, public, auto-deploys on push (R-014). Renamed by the user from Netlify's random `statuesque-bunny-03cabc` name to `leadsmart-live-coverage` on 2026-11-18 (R-015; old name now 404s). Verified serving the live dataset (data_date 2026-11-18, 258,109 rows) via the R-013 proxy — not the repo snapshot. |
 | How updates reach the live site | 🔄 Two-hop chain, no work on our side | (1) LeadSmart refreshes its bid database behind affiliate-bid-coverage.leadsmartinc.com. (2) leadsmart-coverage.netlify.app's backend checks that feed several times a day and, when its fingerprint changes, rebuilds its 412 JSONs (with population data) and redeploys itself. (3) Our site's `netlify.toml` proxies every `/api/*` and `/data.js` request to that site at request time — so our visitors get hop 2's newest dataset the moment it publishes, with no copies, cron jobs, or redeploys on our side. Dependency: if the upstream site goes down or changes layout, our data follows it (fallback snapshot in repo is 2026-11-12). |
 | GitHub push | ✅ Complete — 419 of 419 files | Repo: [rankint360/LeadSmart-Coverage-Tool](https://github.com/rankint360/LeadSmart-Coverage-Tool), branch `main`. Muse pushed 415 files in 19 commits (R-011); the 4 oversized nationwide bundle files were uploaded by the user via GitHub web UI on 2026-11-18 (commit `9a70349`) and verified by Muse — full repo tree matches the clone with zero size mismatches (R-012). The user's pre-existing `leadsmart_coverage_tool.zip` in the repo was left untouched. |
-| Project records | ✅ Created 2026-11-12 | `RECORD_REGISTER.md` (R-001–R-008) + this `STATUS.md`, in `~/workspace/your_files/leadsmart-coverage-project/` — kept outside the clone folder so the clone stays unchanged. |
+| Project records | ✅ Created 2026-11-12, in repo root | `RECORD_REGISTER.md` (entries R-001 onwards) + this `STATUS.md` live both in the local project folder AND in the GitHub repo root, re-pushed after every build step — the user's standing rule (confirmed 2026-11-20, R-017) so any future AI handed the repo can continue from these files. A repo-root `README.md` points newcomers to them ("START HERE"). |
 
 ## Done
 
